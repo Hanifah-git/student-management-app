@@ -58,6 +58,7 @@ class StatusesController extends Controller
 
         $status->save();
 
+        session()->flash("success","New Status Form Is Created Successfully");
         return redirect(route('statuses.index'));
         
     }
@@ -93,6 +94,7 @@ class StatusesController extends Controller
 
         $status->save();
 
+        session()->flash("success","Updated Successfully");
         return redirect(route('statuses.index'));
     }
 
@@ -105,6 +107,7 @@ class StatusesController extends Controller
         $status = Status::findOrFail($id);
         $status->delete();
 
+        session()->flash("info","Deleted Successfully");
         return redirect()->back();
     }
 }

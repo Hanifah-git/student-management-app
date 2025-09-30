@@ -67,7 +67,7 @@
                                 </td>
                                 <td>
                                     @php
-                                        $tagids = json_decode($leave->tag) ?? [];
+                                        $tagids = $leave->tag ?? [];
                                         $tagnames = collect($tagids)->map(function($id) use ($users){
                                             return $users[$id] ?? 'Unknown';
                                         });

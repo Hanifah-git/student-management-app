@@ -52,6 +52,7 @@ class WarehousesController extends Controller
         $warehouse->user_id = $user_id;
         $warehouse->save();
 
+        session()->flash("success","New Leave Form Is Created Successfully");
         return redirect(route('warehouses.index'));
     }
 
@@ -86,6 +87,7 @@ class WarehousesController extends Controller
 
         $warehouse->save();
 
+        session()->flash("success","Updated Successfully");
         return redirect(route('warehouses.index'));
     }
 
@@ -98,6 +100,7 @@ class WarehousesController extends Controller
 
         $warehouse->delete();
 
+        session()->flash("info","Deleted Successfully");
         return redirect()->back();
 
     }

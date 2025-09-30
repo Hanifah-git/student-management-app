@@ -52,6 +52,7 @@ class TypesController extends Controller
         $type->user_id = $user_id;
         $type->save();
 
+        session()->flash("success","New Type Form Is Created Successfully");
         return redirect(route('types.index'));
         
     }
@@ -87,6 +88,7 @@ class TypesController extends Controller
 
         $type->save();
 
+        session()->flash("success","Updated Successfully");
         return redirect(route('types.index'));
     }
 
@@ -99,6 +101,7 @@ class TypesController extends Controller
         $type = Type::findOrFail($id);
         $type->delete();
 
+        session()->flash("info","Deleted Successfully");
         return redirect()->back();
     }
 }

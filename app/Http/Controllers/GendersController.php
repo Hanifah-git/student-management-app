@@ -52,6 +52,7 @@ class GendersController extends Controller
         $gender->user_id = $user_id;
         $gender->save();
 
+        session()->flash("success","New Gender Form Is Created Successfully");
         return redirect(route('genders.index'));
     }
 
@@ -86,6 +87,7 @@ class GendersController extends Controller
 
         $gender->save();
 
+        session()->flash("success","Updated Successfully");
         return redirect(route('genders.index'));
     }
 
@@ -98,6 +100,7 @@ class GendersController extends Controller
 
         $gender->delete();
 
+        session()->flash("info","Deleted Successfully");
         return redirect()->back();
     }
 }

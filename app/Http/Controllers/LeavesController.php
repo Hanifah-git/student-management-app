@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Leave;
+use App\Http\Requests\LeaveRequest;
 use App\Models\LeaveFile;
 use App\Models\Post;
 use App\Models\User;
@@ -47,24 +48,8 @@ class LeavesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(LeaveRequest $request)
     {
-        $request->validate([
-            // for multi post this must be array
-            'post_id' => 'required|array',
-            // all selected posts must exist 
-            'post_id.*' => 'exists:posts,id',
-            'startdate' => 'required|date',
-            'enddate' => 'required|date|after_or_equal:startdate',
-            // for multi post this must be array
-            'tag' => 'required|array',
-            // all selected posts must exist 
-            'tag.*' => 'exists:users,id',
-            'title' => 'required|max:100',
-            'content' => 'required',
-            'image'     => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048'
-        ]);
-
         $user = Auth::user();
         $user_id = $user->id;
 
@@ -76,38 +61,40 @@ class LeavesController extends Controller
         $leave->title = $request['title'];
         $leave->content = $request['content'];
         $leave->user_id = $user_id;
-
+        $leave->save();
 
         // Remove Old Single Image
-        if($request->hasFile('image')){
-            $path = $role->image;
+        // if($request->hasFile('image')){
+        //     $path = $leave->image;
 
-            if(File::exists($path)){
-                File::delete($path);
-            }
-        }
+        //     if(File::exists($path)){
+        //         File::delete($path);
+        //     }
+        // }
 
         // Handle image upload
 
-        if(file_exists($request['images'])){
-            foreach($request->file('images') as $image){
+        if ($request->hasFile('images')) {
+            
+            foreach($request->file('images') as $file){
 
                 $leavefile = new LeaveFile();
                 $leavefile->leave_id = $leave->id;
 
-                $file = $image;
                 $fname = $file->getClientOriginalName();
                 $imagenewname = uniqid($user_id).$leave['id'].$fname;
                 $file->move(public_path('assets/img/leaves'),$imagenewname);
 
                 $filepath = 'assets/img/leaves/'.$imagenewname;
-                $leave->image = $filepath;
+                $leavefile->image = $filepath;
 
                 $leavefile->save();
             }
         }
 
-        $leave->save();
+        // dd(LeaveFile::where('leave_id',$leave->id)->get());
+        
+
 
         session()->flash("success","New Leave Form Is Created Successfully");
         return redirect(route('leaves.index'));
@@ -119,9 +106,10 @@ class LeavesController extends Controller
     public function show(string $id)
     {
         $leave = Leave::findOrFail($id);
+        $leavefiles = LeaveFile::where('leave_id',$id)->get(); // load all images
         $users = User::pluck('name','id');
 
-        return view('leaves.show',["leave"=>$leave,"users"=>$users]);
+        return view('leaves.show',["leave"=>$leave,"leavefiles"=>$leavefiles,"users"=>$users]);
     }
 
     /**
@@ -130,6 +118,7 @@ class LeavesController extends Controller
     public function edit(string $id)
     {
         $data['leave'] = Leave::findOrFail($id);
+        $data['leavefiles'] = LeaveFile::where('leave_id',$id)->get(); // load all images
         $data['posts'] = Post::where('attshow',3)->orderBy('title','asc')->pluck('title','id');;
         $data['tags'] = User::orderBy('name','asc')->get();
         
@@ -141,23 +130,8 @@ class LeavesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(LeaveRequest $request, string $id)
     {
-        $this->validate([
-            // for multi post this must be array
-            'post_id' => 'required|array',
-            // all selected posts must exist 
-            'post_id.*' => 'exists:posts,id',
-            'startdate' => 'required|date',
-            'enddate' => 'required|date|after_or_equal:startdate',
-            // for multi post this must be array
-            'tag' => 'required|array',
-            // all selected posts must exist 
-            'tag.*' => 'exists:users,id',
-            'title' => 'required|max:100',
-            'content' => 'required'
-        ]);
-
         $user = Auth::user();
         $user_id = $user->id;
 
@@ -185,6 +159,10 @@ class LeavesController extends Controller
                 }     
             }
 
+            // Delete respective image paths from the database
+            LeaveFile::where('leave_id',$leave->id)->delete();
+
+
             // Multi Image Upload
 
             foreach($request->file('images') as $image){
@@ -198,7 +176,7 @@ class LeavesController extends Controller
                 $file->move(public_path('assets/img/leaves'),$imagenewname);
 
                 $filepath = 'assets/img/leaves/'.$imagenewname;
-                $leave->image = $filepath;
+                $leavefile->image = $filepath;
 
                 $leavefile->save();
             }
@@ -221,9 +199,12 @@ class LeavesController extends Controller
                 File::delete($path);
             }     
         }
+
+        // Delete respective image paths from the database
+        LeaveFile::where('leave_id',$leave->id)->delete();
         $leave->delete();
 
-        session()->flash("info","Delete Successfully");
+        session()->flash("info","Deleted Successfully");
         return redirect()->back();
     }
 }

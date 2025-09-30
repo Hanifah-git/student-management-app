@@ -57,9 +57,9 @@ class Leave extends Model
 
     public function tagpersons($tagjson){
         $tagids = $tagjson;
-
         $tags = User::whereIn('id',$tagids)->pluck("name","id");
 
+        
         return $tags;
     }
 

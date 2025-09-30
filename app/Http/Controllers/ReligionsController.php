@@ -52,6 +52,7 @@ class ReligionsController extends Controller
         $religion->user_id = $user_id;
         $religion->save();
 
+        session()->flash("success","New Religion Form Is Created Successfully");
         return redirect(route('religions.index'));
     }
 
@@ -86,6 +87,7 @@ class ReligionsController extends Controller
 
         $religion->save();
 
+        session()->flash("success","Updated Successfully");
         return redirect(route('religions.index'));
     }
 
@@ -98,6 +100,7 @@ class ReligionsController extends Controller
 
         $religion->delete();
 
+        session()->flash("info","Deleted Successfully");
         return redirect()->back();
     }
 }

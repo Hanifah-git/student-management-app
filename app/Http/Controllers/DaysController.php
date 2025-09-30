@@ -52,6 +52,7 @@ class DaysController extends Controller
         $day->user_id = $user_id;
         $day->save();
 
+        session()->flash("success","New Day Form Is Created Successfully");
         return redirect(route('days.index'));
     }
 
@@ -86,6 +87,7 @@ class DaysController extends Controller
 
         $day->save();
 
+         session()->flash("success","Updated Successfully");
         return redirect(route('days.index'));
     }
 
@@ -98,6 +100,7 @@ class DaysController extends Controller
 
         $day->delete();
 
+         session()->flash("info","Deleted Successfully");
         return redirect()->back();
     }
 }

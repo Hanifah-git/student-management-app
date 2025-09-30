@@ -52,6 +52,7 @@ class CategoriesController extends Controller
         $category->user_id = $user_id;
         $category->save();
 
+        session()->flash("success","New Category Form Is Created Successfully");
         return redirect(route('categories.index'));
     }
 
@@ -86,6 +87,7 @@ class CategoriesController extends Controller
 
         $category->save();
 
+        session()->flash("success","Updated Successfully");
         return redirect(route('categories.index'));
     }
 
@@ -98,6 +100,7 @@ class CategoriesController extends Controller
 
         $category->delete();
 
+        session()->flash("info","Deleted Successfully");
         return redirect()->back();
     }
 }

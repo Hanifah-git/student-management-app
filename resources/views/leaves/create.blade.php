@@ -31,7 +31,7 @@
                                         </label>
 
 
-                                        <input type="file" name="images" id="images" class="form-control form-control-sm rounded-0" multiple hidden/>
+                                        <input type="file" name="images[]" id="images" class="form-control form-control-sm rounded-0" multiple hidden/>
                                 
 
                                     </div>

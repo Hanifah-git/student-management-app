@@ -77,6 +77,7 @@ class RolesController extends Controller
         }
         $role->save();
 
+        session()->flash("success","New Role Form Is Created Successfully");
         return redirect(route('roles.index'));
     }
 
@@ -143,6 +144,7 @@ class RolesController extends Controller
 
         $role->save();
 
+        session()->flash("success","Updated Successfully");
         return redirect(route('roles.index'));
     }
 
@@ -163,6 +165,7 @@ class RolesController extends Controller
 
         $role->delete();
 
+        session()->flash("info","Deleted Successfully");
         return redirect()->back();
     }
 }
