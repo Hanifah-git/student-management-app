@@ -1,0 +1,158 @@
+@import url("https://fonts.googleapis.com/css?family=Raleway");
+
+.toast-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 15px 20px;
+  width: auto;
+  max-width: 300px;
+  border-radius: 32px;
+  font-size: 16px;
+  z-index: 999999;
+  font-weight: 500;
+  font-family: "Raleway", sans-serif;
+  margin: 5px 0;
+}
+
+.toast-message div {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  width: 100%;
+  z-index: 999999;
+  font-weight: 500;
+  font-family: "Raleway", sans-serif;
+  margin: 5px 0;
+}
+
+.toast-message.success {
+  background: rgb(0, 200, 0);
+  color: #fff;
+}
+
+.toast-message.error {
+  background: rgb(200, 0, 0);
+  color: #fff;
+}
+
+.toast-message.warning {
+  background: rgb(200, 200, 0);
+  color: #fff;
+}
+
+/* Containers */
+.toast-message {
+  position: fixed;
+  margin: 5px;
+}
+
+.toast-message.top {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  flex-direction: column-reverse;
+}
+
+.toast-message.top_left {
+  top: 0;
+  left: 0;
+  flex-direction: column-reverse;
+}
+
+.toast-message.top_right {
+  top: 0;
+  right: 0;
+  flex-direction: column-reverse;
+}
+
+.toast-message.bottom {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.toast-message.bottom_left {
+  bottom: 0;
+  left: 0;
+}
+
+.toast-message.bottom_right {
+  bottom: 0;
+  right: 0;
+}
+
+/* Hidden message */
+.toast-message.fade_in {
+  opacity: 0;
+}
+.toast-message.scale_in {
+  transform: scale(0);
+}
+
+.toast-message.top.slide_in {
+  transform: translateY(-300%);
+}
+
+.toast-message.top_left.slide_in {
+  transform: translateX(-300%);
+}
+
+.toast-message.top_right.slide_in {
+  transform: translateX(300%);
+}
+
+.toast-message.bottom.slide_in {
+  transform: translateY(300%);
+}
+
+.toast-message.bottom_left.slide_in {
+  transform: translateX(-300%);
+}
+
+.toast-message.bottom_right.slide_in {
+  transform: translateX(300%);
+}
+
+/* Shown message */
+.toast-message.fade_in.shown {
+  opacity: 1;
+}
+
+.toast-message.scale_in.shown {
+  transform: scale(1);
+}
+
+.toast-message.top.slide_in.shown {
+  transform: translateY(0);
+}
+
+.toast-message.top_left.slide_in.shown {
+  transform: translateX(0);
+}
+
+.toast-message.top_right.slide_in.shown {
+  transform: translateX(0);
+}
+
+.toast-message.bottom.slide_in.shown {
+  transform: translateY(0);
+}
+
+.toast-message.bottom_left.slide_in.shown {
+  transform: translateX(0);
+}
+
+.toast-message.bottom_right.slide_in.shown {
+  transform: translateX(0);
+}
+
+/* Make the toast wider on smaller screens */
+@media screen and (max-width: 768px) {
+  .toast-message {
+    max-width: 60%;
+  }
+}

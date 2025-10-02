@@ -12,7 +12,7 @@
         <link href="./assets/libs/jquery-ui-1.13.2.custom/jquery-ui.min.css" rel="stylesheet"  />
         
         {{-- toastr notification  css1 js1 --}}
-        <script src="{{asset('assets/libs/toastr-master/build/toastr.min.css')}}"></script>
+        <link href="{{asset('assets/libs/tostr-master/tostr.css')}}"  rel="stylesheet" type="text/css" />
 
         {{-- custom css css1 --}}
         <link href="{{asset('assets/dist/css/style.css')}}" rel="stylesheet" type="text/css" />

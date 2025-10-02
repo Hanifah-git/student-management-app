@@ -4,7 +4,8 @@
 
     <!-- Start Site Setting  -->
     <div id="sitesettings" class="sitesettings">
-        <div class="sitesettings-item"><a href="javascript:void(0);" id="sitetoggle" class="sitetoggle"><i class="fas fa-cog ani-rotates"></i></a></div>
+        <div class="sitesettings-item"><a href="javascript:void(0);" id="sitetoggle" class="sitetoggle"><i
+                    class="fas fa-cog ani-rotates"></i></a></div>
     </div>
     <!-- End Site Setting  -->
 
@@ -20,10 +21,32 @@
                 <div class="col-lg-10 col-md-9 pt-md-5 mt-md-3 ms-auto">
 
                     <div class="row">
+
+                        {{-- @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
+                        @if (session('info'))
+                            <div class="alert alert-info">
+                                {{ session('info') }}
+                            </div>
+                        @endif
+
+                        @if ($errors)
+                            @foreach ($errors->all() as $error)
+                                <div class="alert alert-danger">
+                                    {{ $error }}
+                                </div>
+                            @endforeach
+                        @endif --}}
+
                         {{-- Start Breadcrumb --}}
                         <nav>
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="fas fa-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                            class="fas fa-home"></i></a></li>
                                 <li class="breadcrumb-item"><a href="javascript:void(0);">Previous</a></li>
                                 <li class="breadcrumb-item active"><a href="javascript:void(0);">Current</i></a></li>
                             </ol>
@@ -32,15 +55,15 @@
 
                         @yield('content')
                     </div>
-                    
+
                 </div>
             </div>
         </div>
 
-        
-        
+
+
     </section>
     {{-- Page Wrapper --}}
-</div> 
+</div>
 {{-- end reactjs or vuejs --}}
 @include('layouts/adminfooter')

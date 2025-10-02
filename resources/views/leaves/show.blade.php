@@ -112,9 +112,6 @@
                                 <button type="button" id="autoclick" class="tablinks active"
                                     onclick="gettab(event,'contenttab')">Content</button>
                             </li>
-                            <li class="nav-item">
-                                <button type="button" class="tablinks" onclick="gettab(event,'profile')">Profile</button>
-                            </li>
                         </ul>
 
                         <div class="tab-content">
@@ -126,24 +123,56 @@
                                         <div class="mt-2">
                                             <a href="{{ asset($leavefile->image) }}" data-lightbox="image">
                                                 <img src="{{ asset($leavefile->image) }}" alt="{{ $leavefile->id }}"
-                                                width="120" class="border rounded">
+                                                    width="120" class="border rounded">
                                             </a>
                                         </div>
                                     @endforeach
                                 @else
-                                    <span>Choose Images</span>
+                                    <span>No File</span>
                                 @endif
                             </div>
+                        </div>
+                    </div>
 
-                            <div id="profile" class="tab-panel">
-                                <h3>This is Profiles</h3>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                    has been the industry's standard dummy text ever since the 1500s, when an unknown
-                                    printer took a galley of type and scrambled it to make a type specimen book. It has
-                                    survived not only five centuries, but also the leap into electronic typesetting,
-                                    remaining essentially unchanged. It was popularised in the 1960s with the release of
-                                    Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
-                                    publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                    <h6>Control Session</h6>
+                    <div class="card border-0 rounded-0 shadow mb-4">
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <button type="button" id="autoclick" class="tablinks active"
+                                    onclick="gettab(event,'authorizationtag')">Authorization</button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div id="authorizationtag" class="tab-panel">
+                                <form action="{{ route('leaves.updatestage',$leave->id) }}" method="POST">
+
+                                    @csrf
+                                    @method('PUT')
+
+                                    <div class="row">
+
+                                        <div class="col-md-3 form-group mt-3">
+
+                                            <select name="stage_id" id="stage_id"
+                                                class="form-select form-select-sm rounded-0">
+                                                @foreach ($stages as $stage)
+                                                    <option value="{{ $stage->id }}"
+                                                        {{ $leave->stage_id == $stage->id ? 'selected' : '' }}>
+                                                        {{ $stage->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+
+                                        </div>
+
+                                        <div class="col-md-3 d-flex justify-content-end">
+                                            <button type="submit"
+                                                class="btn btn-primary btn-sm rounded-0 ms-3">Submit</button>
+                                        </div>
+
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -159,7 +188,8 @@
     @endsection
 
     @section('css')
-        <link href="{{ asset('assets/libs/lightbox2-dev/dist/css/lightbox.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('assets/libs/lightbox2-dev/dist/css/lightbox.min.css') }}" rel="stylesheet"
+            type="text/css" />
         <style type="text/css">
             /* Start Accordion */
             .accordion {
@@ -256,6 +286,13 @@
             }
 
             /* End Tab */
+
+            #stage_id:focus {
+                outline: none !important;
+                box-shadow: none !important;
+                border-color: inherit !important;
+            }
+
         </style>
     @endsection
 

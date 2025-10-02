@@ -7,6 +7,7 @@ use App\Http\Requests\LeaveRequest;
 use App\Models\LeaveFile;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Stages;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -108,8 +109,9 @@ class LeavesController extends Controller
         $leave = Leave::findOrFail($id);
         $leavefiles = LeaveFile::where('leave_id',$id)->get(); // load all images
         $users = User::pluck('name','id');
+        $stages = Stages::whereIn('id',[1,2,3])->where('status_id',3)->get();
 
-        return view('leaves.show',["leave"=>$leave,"leavefiles"=>$leavefiles,"users"=>$users]);
+        return view('leaves.show',["leave"=>$leave,"leavefiles"=>$leavefiles,"users"=>$users,"stages"=>$stages]);
     }
 
     /**
@@ -191,6 +193,10 @@ class LeavesController extends Controller
         $leave = Leave::findOrFail($id);
         $leavefiles = LeaveFile::where('leave_id',$id)->get();
 
+        if($leave->isconveted()){
+            return redirect()->back()->with('error',"This leave form is already reviewed. Cannot be deleted. ");
+        }
+    
         foreach($leavefiles as $leavefile){
 
             $path = $leavefile->image;
@@ -204,7 +210,16 @@ class LeavesController extends Controller
         LeaveFile::where('leave_id',$leave->id)->delete();
         $leave->delete();
 
-        session()->flash("info","Deleted Successfully");
+        session()->flash("error","Deleted Successfully");
+        return redirect()->back();
+    }
+
+    public function updatestage(Request $request,$id){
+        $leave = Leave::findOrFail($id);
+        $leave->stage_id = $request->stage_id;
+        $leave->save();
+
+        session()->flash("info","Changed Stage");
         return redirect()->back();
     }
 }

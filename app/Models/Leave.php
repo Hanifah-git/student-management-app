@@ -56,7 +56,8 @@ class Leave extends Model
     }
 
     public function tagpersons($tagjson){
-        $tagids = $tagjson;
+        $tagids = is_array($tagjson) ? $tagjson : json_decode($tagjson, true) ?? [];
+        // dd($tagids);
         $tags = User::whereIn('id',$tagids)->pluck("name","id");
 
         
@@ -64,11 +65,14 @@ class Leave extends Model
     }
 
     public function tagposts($postjson){
-        $postids = $postjson;
-
+        $postids = is_array($postjson) ? $postjson : json_decode($postjson, true) ?? [];
         $posts = Post::whereIn('id',$postids)->pluck("title","id");
 
         return $posts;
+    }
+
+    public function isconveted(){
+        return $this->stage_id != 2; // 2 = pending
     }
 
 }
